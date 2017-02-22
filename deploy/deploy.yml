@@ -1,0 +1,38 @@
+# Simple Ansible playbook for deployment
+# Process still needs to be started manually (TODO)
+---
+- hosts: vps2
+  vars:
+    dir_path: /opt/ciptn-hook
+    service_name: ciptn-hook
+
+  tasks:
+  - name: checkout ciptn-hook from Github
+    git:
+      repo: https://github.com/ps-aux/ciptn-hook.git
+      dest: '{{dir_path}}'
+
+  - name: install node dependencies
+    npm: path={{dir_path}}
+
+  - name: create systemd service file
+    template:
+      src: systemd-service.j2
+      dest: '/etc/systemd/system/{{service_name}}.service'
+
+  - name: daemon-reload & restart systemd service
+    systemd:
+      state: restarted
+      daemon_reload: yes
+      name: '{{service_name}}'
+      enabled: True
+
+    #TODO run/ stop (make service)
+  - name: open port
+    firewalld:
+      zone: public
+      port: 3100/tcp
+      state: enabled
+      permanent: true
+      immediate: true
+
