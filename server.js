@@ -1,3 +1,6 @@
+require('es6-promise').polyfill()
+require('isomorphic-fetch')
+
 const circleCi = require("./circleCi")
 
 const express = require('express');
@@ -13,15 +16,15 @@ app.get('/', function (req, res) {
     res.send('Ciptn Hook reporting  in!');
 })
 
-app.post('/hook-dat-shit', function (req, res) {
+app.post('/ci-hooks/circle-ci', function (req, res) {
     console.log(JSON.stringify(req.body))
     circleCi.downloadArtifacts(req.body.payload)
     res.send(req.body);
 })
 
 const server = app.listen(port, function () {
-    var host = server.address().address
-    var port = server.address().port
+    const host = server.address().address
+    const port = server.address().port
 
-    console.log("Example app listening at http://%s:%s", host, port)
+    console.log(`Ciptn Hook started at ${host}:${port}`)
 })
