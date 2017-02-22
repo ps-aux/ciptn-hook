@@ -1,3 +1,5 @@
+const circleCi = require("./circleCi")
+
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -12,7 +14,8 @@ app.get('/', function (req, res) {
 })
 
 app.post('/hook-dat-shit', function (req, res) {
-    console.log(req.body)
+    console.log(JSON.stringify(req.body))
+    circleCi.downloadArtifacts(req.body.payload)
     res.send(req.body);
 })
 
