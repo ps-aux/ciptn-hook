@@ -1,5 +1,3 @@
-# Simple Ansible playbook for deployment
-# Process still needs to be started manually (TODO)
 ---
 - hosts: vps2
   vars:
