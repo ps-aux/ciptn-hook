@@ -19,11 +19,27 @@ const downloadArtifact = (artifact, dir) => {
     console.log(`Downloading ${name} to ${dir}`)
 
     const dest = fs.createWriteStream(`${dir}/${name}`)
-    dest.on('finish', () => {
-        console.log(`Finished downloading ${name}`)
+
+    return new Promise(res => {
+        dest.on('finish', () => {
+            console.log(`Finished downloading ${name}`)
+            res()
+        })
+
+        fetch(artifact.url)
+            .then(r => r.body.pipe(dest))
     })
-    fetch(artifact.url)
-        .then(r => r.body.pipe(dest))
+}
+
+const createDownloadDir = dir => {
+    return new Promise(res => {
+        mkdirp(dir,
+            err => {
+                if (err)
+                    throw new Error(err)
+                res()
+            })
+    })
 }
 
 module.exports = {
@@ -34,18 +50,14 @@ module.exports = {
         const name = hookInfo.reponame
         const dir = `${downloadDir}/${name}/build-${hookInfo.build_num}`
 
-        mkdirp(dir,
-            err => {
-                if (err) {
-                    console.log(err)
-                    return
-                }
-                fetch(url)
-                    .then(r => r.json())
-                    .then(artifacts => {
-                        console.log(artifacts)
-                        artifacts.forEach(a => downloadArtifact(a, dir))
-                    })
+        return createDownloadDir(dir)
+            .then(() => fetch(url))
+            .then(r => r.json())
+            .then(artifacts => {
+                console.log(artifacts)
+                const jobs = artifacts.map(a => downloadArtifact(a, dir))
+                return Promise.all(jobs)
             })
+            .then(() => dir)
     }
 }

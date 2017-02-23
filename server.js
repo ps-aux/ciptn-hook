@@ -1,5 +1,7 @@
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
+const git = require('./git')
+const deploy = require('./deploy')
 
 const circleCi = require("./circleCi")
 
@@ -18,8 +20,25 @@ app.get('/', function (req, res) {
 
 app.post('/ci-hooks/circle-ci', function (req, res) {
     console.log(JSON.stringify(req.body))
-    circleCi.downloadArtifacts(req.body.payload)
-    res.send(req.body);
+
+    const info = req.body.payload
+    const gitUrl = info.vcs_url
+
+    let artifactsDir = null
+
+    circleCi.downloadArtifacts(info)
+        .then(dir => {
+            artifactsDir = dir
+            return git.cloneRepo(gitUrl, artifactsDir)
+        })
+        .then(repoDir => deploy.runDeploy(artifactsDir, repoDir))
+        .then(() => {
+            console.log('Done.Sending response')
+            res.send(req.body);
+        }).catch(e => {
+        throw e
+    })
+
 })
 
 const server = app.listen(port, function () {
