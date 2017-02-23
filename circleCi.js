@@ -54,8 +54,11 @@ module.exports = {
             .then(() => fetch(url))
             .then(r => r.json())
             .then(artifacts => {
-                console.log(artifacts)
+                console.log(`Artifacts are: ${artifacts}`)
                 const jobs = artifacts.map(a => downloadArtifact(a, dir))
+                if (artifacts.length < 1)
+                    throw new Error('No artifacts received for this build')
+
                 return Promise.all(jobs)
             })
             .then(() => dir)

@@ -19,6 +19,7 @@ app.get('/', function (req, res) {
 })
 
 app.post('/ci-hooks/circle-ci', function (req, res) {
+    console.log('Build notification from CircleCI')
     console.log(JSON.stringify(req.body))
 
     const info = req.body.payload
