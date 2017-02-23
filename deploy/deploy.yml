@@ -25,7 +25,7 @@
       name: '{{service_name}}'
       enabled: True
 
-    #TODO run/ stop (make service)
+    # TODO remove when reverse proxy is guaranteed to be deployed
   - name: open port
     firewalld:
       zone: public
