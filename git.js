@@ -1,4 +1,4 @@
-const exec = require('child_process').exec
+const run = require('./proc').run
 
 module.exports.cloneRepo = (url, dir) => {
 
@@ -6,13 +6,9 @@ module.exports.cloneRepo = (url, dir) => {
 
     return new Promise(res => {
         console.log(`Checking out ${url} to ${dir}`)
-
-        const proc = exec(`git clone ${url}`, {cwd: dir},
-            (err, stdout, stderr) => {
-                if (err)
-                    throw new Error(err)
-                console.log('Checkout done', stdout)
-                res(`${dir}/${name}`)
-            })
+        run(`git`, ['clone', url], () => {
+            console.log('Checkout done')
+            res(`${dir}/${name}`)
+        }, dir)
     })
 }
