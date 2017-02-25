@@ -1,4 +1,5 @@
 #!/bin/bash
 script_dir=$(dirname $0)
 
-ansible-playbook "$script_dir/deploy/deploy.yml"
+cd "$script_dir/deploy"
+ansible-playbook "deploy.yml"
