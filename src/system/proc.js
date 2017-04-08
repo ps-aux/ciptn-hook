@@ -1,14 +1,15 @@
 const spawn = require('child_process').spawn
+const log = require('src/support/logger')
 
 module.exports.run = ({command, args, onDone, cwd, env}) => {
 
     const proc = spawn(command, args, {cwd: cwd})
 
     proc.stdout.on('data', data => {
-        console.log(`  ${data}`)
+        log.trace(`  ${data}`)
     })
     proc.stderr.on('data', data => {
-        console.error(`  ${data}`)
+        log.error(`  ${data}`)
     })
 
     proc.on('close', code => {
