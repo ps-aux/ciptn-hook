@@ -1,5 +1,6 @@
 const fs = require('fs')
 const mkdirp = require('mkdirp')
+const log = require('src/support/logger')
 
 const apiRoot = 'https://circleci.com/api/v1.1'
 const downloadDir = '/tmp/Downloads/ci/circle-ci'
@@ -16,13 +17,13 @@ const getArtifactsUrl = hookInfo => {
 
 const downloadArtifact = (artifact, dir) => {
     const name = artifact.path.split('/').pop()
-    console.log(`Downloading ${name} to ${dir}`)
+    log.debug(`Downloading ${name} to ${dir}`)
 
     const dest = fs.createWriteStream(`${dir}/${name}`)
 
     return new Promise(res => {
         dest.on('finish', () => {
-            console.log(`Finished downloading ${name}`)
+            log.debug(`Finished downloading ${name}`)
             res()
         })
 

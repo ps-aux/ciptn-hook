@@ -1,6 +1,6 @@
 const spawn = require('child_process').spawn
 
-module.exports.run = (command, args, onDone, cwd) => {
+module.exports.run = ({command, args, onDone, cwd, env}) => {
 
     const proc = spawn(command, args, {cwd: cwd})
 

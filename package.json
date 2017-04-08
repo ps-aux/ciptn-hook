@@ -4,7 +4,9 @@
   "description": "Hook dat CI",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "./start",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "node -e \"var s='../src',d='node_modules/src',fs=require('fs');fs.exists(d,function(e){e||fs.symlinkSync(s,d,'dir')});\""
   },
   "dependencies": {
     "body-parser": "^1.16.1",
@@ -12,6 +14,7 @@
     "express": "^4.14.1",
     "isomorphic-fetch": "^2.2.1",
     "mkdirp": "^0.5.1",
-    "request": "^2.79.0"
+    "request": "^2.79.0",
+    "winston": "^2.3.1"
   }
 }

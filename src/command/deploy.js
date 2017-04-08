@@ -1,4 +1,4 @@
-const run = require('./proc').run
+const run = require('src/system/proc').run
 
 module.exports.runDeploy = (artifactsDir, repoDir) => {
     console.log(`Running deploy.sh artifacts: ${artifactsDir}, repo: ${repoDir}`)
