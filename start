@@ -2,4 +2,6 @@
 
 dir=$(dirname "$(readlink -f "$0")")
 cd $dir
+# Support absolute path require imports
+export NODE_PATH=node_modules:.
 node 'src/server.js'
