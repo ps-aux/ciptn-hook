@@ -1,4 +1,5 @@
 const log = require('src/support/logger')
+const file = require('src/system/file')
 
 
 module.exports = body => {

@@ -35,6 +35,10 @@ const server = app.listen(port, function () {
 
     log.info(`Ciptn Hook started at ${host}:${port}`)
 
+
+    file.ensureDir('/tmp/pica/kokot')
+        // .then(() => console.log('success'))
+
     // // githubApi.isDocker('ps-aux', 'lunchgator-server')
     // //     .then(console.log)
     // githubApi.getDockerCompose('ps-aux', 'lunchgator-server')
