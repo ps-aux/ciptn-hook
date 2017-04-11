@@ -4,7 +4,7 @@ const file = require('src/system/file')
 
 module.exports = body => {
     const data = body.payload
-    const gitUrl = info.vcs_url
+    const gitUrl = data.vcs_url
 
 
     /*    circleCi.downloadArtifacts(info)
