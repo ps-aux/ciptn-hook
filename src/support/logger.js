@@ -1,7 +1,13 @@
 const winston = require('winston')
 
+const logger = new (winston.Logger)({
+    transports: [
+        new (winston.transports.Console)({level: 'silly'}),
+    ]
+});
 
-const log = (level, msg) => winston[level](msg)
+
+const log = (level, msg) => logger[level](msg)
 
 const info = msg => log('info', msg)
 const debug = msg => log('debug', msg)
