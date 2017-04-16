@@ -1,5 +1,6 @@
 const fs = require('fs')
 const shell = require('shelljs');
+const readLine = require('readline')
 
 const writeText = (name, text) =>
     new Promise(res => {
@@ -10,18 +11,20 @@ const writeText = (name, text) =>
         })
     })
 
+const readText = ({path, onLine, onEnd}) => {
+    // TODO error handling ????
+    const reader = readLine.createInterface({
+        input: fs.createReadStream(path)
+    })
+
+    reader.on('line', onLine)
+    reader.on('close', onEnd)
+}
+
 const ensureDir = path => {
     shell.mkdir('-p', path)
-/*    return new Promise(res => {
-        fs.mkdir(path, err => {
-            if (err)
-                if (err.code !== 'EEXIST')
-                    throw new Error(err)
-            res()
-        })
-    })*/
 }
 
 module.exports = {
-    writeText, ensureDir
+    writeText, ensureDir, readText
 }

@@ -11,6 +11,8 @@ const githubApi = require('src/api/github')
 
 const circleCi = require("src/hook/circleCi")
 
+const configParser = require('src/support/configParser')
+
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -35,9 +37,13 @@ const server = app.listen(port, function () {
 
     log.info(`Ciptn Hook started at ${host}:${port}`)
 
+    // githubApi.isDocker({owner: 'ps-aux', repo: 'lunchgator-server'})
+    //     .then(r => console.log('result is', r))
 
-    githubApi.isDocker({owner: 'ps-aux', repo: 'lunchgator-server'})
-        .then(r => console.log('result is', r))
+    const path = '/home/arkonix/workspace/lunchgator-server/docker/.env'
+
+    configParser.parseValKeyFile(path)
+        .then(console.log)
 
     // .then(() => console.log('success'))
 

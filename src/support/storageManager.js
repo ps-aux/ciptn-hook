@@ -3,8 +3,10 @@ const file = require('src/system/file')
 
 const storageLocation = '/tmp'
 
+const getDir = appName => storageLocation + '/' + appName
+
 const storeFile = (appName, fileName, content) => {
-    const dirPath = storageLocation + '/' + appName
+    const dirPath = getDir(appName)
     const filePath = dirPath + '/' + fileName
     file.ensureDir(dirPath)
 
@@ -13,6 +15,6 @@ const storeFile = (appName, fileName, content) => {
 }
 
 module.exports = {
-    storeFile
+    storeFile, getDir
 }
 

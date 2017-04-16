@@ -3,7 +3,7 @@ const log = require('src/support/logger')
 
 module.exports.run = ({command, args, onDone, cwd, env}) => {
 
-    const proc = spawn(command, args, {cwd: cwd})
+    const proc = spawn(command, args, {cwd, env})
 
     proc.stdout.on('data', data => {
         log.trace(`  ${data}`)

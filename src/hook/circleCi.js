@@ -1,6 +1,8 @@
 const log = require('src/support/logger')
 const storageManager = require('src/support/storageManager')
 const github = require('src/api/github')
+const docker = require('src/command/docker')
+const configParser = require('src/support/configParser')
 
 
 module.exports = data => {
@@ -22,7 +24,12 @@ module.exports = data => {
         })
         .then(content =>
             storageManager.storeFile(appName, 'docker-compose.yml', content))
-        .then(r => console.log('File saved'))
+        .then(() =>
+            configParser.parseValKeyFile('/home/arkonix/workspace/lunchgator-server/docker/.env'))
+        .then(env =>
+            docker.runDockerCompose(storageManager.getDir(appName), env))
+        .then(r =>
+            log.info('Done'))
 
     /*    circleCi.downloadArtifacts(info)
      .then(dir => {
