@@ -36,20 +36,4 @@ const server = app.listen(port, function () {
     const port = server.address().port
 
     log.info(`Ciptn Hook started at ${host}:${port}`)
-
-    // githubApi.isDocker({owner: 'ps-aux', repo: 'lunchgator-server'})
-    //     .then(r => console.log('result is', r))
-
-    const path = '/home/arkonix/workspace/lunchgator-server/docker/.env'
-
-    configParser.parseValKeyFile(path)
-        .then(console.log)
-
-    // .then(() => console.log('success'))
-
-    // // githubApi.isDocker('ps-aux', 'lunchgator-server')
-    // //     .then(console.log)
-    // githubApi.getDockerCompose('ps-aux', 'lunchgator-server')
-    //     .then(text => file.writeText('/tmp/hovno', text))
-
 })
