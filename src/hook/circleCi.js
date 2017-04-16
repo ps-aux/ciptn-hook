@@ -25,22 +25,9 @@ module.exports = data => {
         .then(content =>
             storageManager.storeFile(appName, 'docker-compose.yml', content))
         .then(() =>
-            configParser.parseValKeyFile('/home/arkonix/workspace/lunchgator-server/docker/.env'))
+            configParser.parseValKeyFile(storageManager.getEnvFilePath(appName)))
         .then(env =>
             docker.runDockerCompose(storageManager.getDir(appName), env))
         .then(r =>
-            log.info('Done'))
-
-    /*    circleCi.downloadArtifacts(info)
-     .then(dir => {
-     artifactsDir = dir
-     return git.cloneRepo(gitUrl, artifactsDir)
-     })
-     .then(repoDir => deploy.runDeploy(artifactsDir, repoDir))
-     .then(() => {
-     console.log('Done.Sending response')
-     res.send(req.body);
-     }).catch(e => {
-     throw e
-     })*/
+            log.info('Circle CI done'))
 }

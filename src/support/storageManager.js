@@ -2,6 +2,7 @@ const log = require('src/support/logger')
 const file = require('src/system/file')
 
 const storageLocation = '/tmp'
+const confLocation = '/etc/deploy/env'
 
 const getDir = appName => storageLocation + '/' + appName
 
@@ -14,7 +15,9 @@ const storeFile = (appName, fileName, content) => {
     return file.writeText(filePath, content)
 }
 
+const getEnvFilePath = appName => confLocation + '/' + appName
+
 module.exports = {
-    storeFile, getDir
+    storeFile, getDir, getEnvFilePath
 }
 
