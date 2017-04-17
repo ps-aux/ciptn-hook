@@ -2,7 +2,7 @@ const log = require('src/support/logger')
 const file = require('src/system/file')
 
 const storageLocation = '/tmp'
-const confLocation = '/etc/deploy/env'
+const confLocation = '/etc/deploy/conf'
 
 const getDir = appName => storageLocation + '/' + appName
 
