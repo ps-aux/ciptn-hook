@@ -15,8 +15,13 @@ const parseValKeyFile = path => {
         file.readText({
             path,
             onLine: l => {
+                l = l.trim()
+
                 // Ignore empty lines
-                if (!l.trim())
+                if (!l)
+                    return
+                // Ignore comments
+                if (l.startsWith("#"))
                     return
 
                 const split = l.split('=')
